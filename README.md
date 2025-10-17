@@ -17,6 +17,19 @@ __This tutorial works out of the box with the [public container images](https://
 
 You will also need a web browser to access webpages. It is assumed that the web browser is installed on a Windows PC in which you have privileges to execute administrative tasks and that can reach the Linux server containing the Docker daemon with the IAR Build Tools.
 
+Install the Docker Engine on one its [supported environments](https://docs.docker.com/engine/install#server):
+```bash
+# Update APT's database
+sudo apt update
+sudo apt install curl
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh ./get-docker.sh
+# Add the current $USER to the docker group
+sudo usermod -aG docker $USER
+# Apply changes made to /etc/group (same as logging out and logging in again)
+sudo -iu $USER
+```
+
 In the Linux server's shell, clone this repository to the user's home directory (`~`):
 ```
 git clone https://github.com/iarsystems/cx-jenkins-ci.git ~/cx-jenkins-ci
