@@ -4,22 +4,22 @@
 >The information in this repository is subject to change without notice and does not constitute a commitment by IAR. While it serves as a valuable reference for DevOps Engineers implementing Continuous Integration with IAR Tools, IAR assumes no responsibility for any errors, omissions, or specific implementations.
 
 ## Introduction
-The [IAR Build Tools](https://iar.com/bx) comes with everything you need to build projects created with the IAR Embedded Workbench from the command line. [Jenkins][url-jenkins] is an automation controller suitable for CI (Continuous Integration). [Gitea][url-gitea] is a lightweight Git server. 
+The [IAR Build Tools](https://iar.com/cx) comes with everything you need to build projects created with the IAR Embedded Workbench from the command line. [Jenkins][url-jenkins] is an automation controller suitable for CI (Continuous Integration). [Gitea][url-gitea] is a lightweight Git server. 
 
 This tutorial provides a quick method for bootstrapping the IAR Build Tools, Gitea and Jenkins, each one on its own container, for building and analyzing your embedded projects on-premises. From this starting point, you can apply customizations suitable for your organization's needs.
 
 In a picture:
 
-![bx-jenkins-ci](https://github.com/user-attachments/assets/bd02dbad-0f35-4ef7-89ca-8b1d4cada87a)
+![cx-jenkins-ci](https://github.com/user-attachments/assets/bd02dbad-0f35-4ef7-89ca-8b1d4cada87a)
 
 ## Pre-requisites
-__For completing this tutorial you need to have the Docker image with the IAR Build Tools from the [__bx-docker__][url-bx-docker] tutorial.__
+__This tutorial works out of the box with the [public container images](https://github.com/orgs/iarsystems/packages) using the latest generation of the IAR Build Tools and its Cloud License Service (CX). For the earlier generation of the IAR Build Tools (BX), it is necessary to manually build locally their respective Docker container images using the guidelines provided in the [__bx-docker tutorial__][url-bx-docker].__
 
 You will also need a web browser to access webpages. It is assumed that the web browser is installed on a Windows PC in which you have privileges to execute administrative tasks and that can reach the Linux server containing the Docker daemon with the IAR Build Tools.
 
 In the Linux server's shell, clone this repository to the user's home directory (`~`):
 ```
-git clone https://github.com/iarsystems/bx-jenkins-ci.git ~/bx-jenkins-ci
+git clone https://github.com/iarsystems/cx-jenkins-ci.git ~/cx-jenkins-ci
 ```
 
 <img alt="Docker" align="right" src="https://avatars.githubusercontent.com/u/5429470?s=96&v=4" /><br>
@@ -97,9 +97,8 @@ To generate a new token in the user profile settings:
 ### Example by migrating an existing repository
 On the top-right corner of the page:
 - Go to __`+`__ → __New Migration__ → __GitHub__ (http://gitea:3000/repo/migrate?service_type=2). 
-- __Migrate / Clone from URL__: [`https://github.com/iarsystems/bx-workspaces-ci`](https://github.com/iarsystems/bx-workspaces-ci).
-- Edit the [Jenkinsfile](http://gitea:3000/jenkins/bx-workspaces-ci/_edit/master/Jenkinsfile)
-   - update the __agent__ settings to match the __image__ you created earlier when performing the [bx-docker](https://github.com/iarsystems/bx-docker) guide.
+- __Migrate / Clone from URL__: [`https://github.com/iarsystems/ewp-workspaces-ci`](https://github.com/iarsystems/ewp-workspaces-ci).
+- Edit the [Jenkinsfile-cx](http://gitea:3000/jenkins/ewp-workspaces-ci/_edit/master/Jenkinsfile-cx) or edit the [Jenkinsfile-bx](http://gitea:3000/jenkins/ewp-workspaces-ci/_edit/master/Jenkinsfile-bx) updating any settings (such as __image__) to match the image you intend to use.
 
 <img alt="Jenkins" align="right" src="https://avatars.githubusercontent.com/u/107424?s=72&v=4"/><br>
 
@@ -117,7 +116,7 @@ The standard Jenkins setup has a number of steps that can be automated with the 
 
 Build the image, tagging it as __jenkins:jcasc__:
 ```
-docker build --tag jenkins:jcasc --build-arg DOCKER_GROUP=$(getent group docker | cut -d: -f3) ~/bx-jenkins-ci
+docker build --tag jenkins:jcasc --build-arg DOCKER_GROUP=$(getent group docker | cut -d: -f3) ~/cx-jenkins-ci
 ```
 
 Now run the __jenkins__ container:
@@ -172,6 +171,22 @@ To configure the [__gitea__][url-plugin-gitea] plugin proceed as follows, starti
 
 - Click __` Save `__.
 
+### Storing a CI Token using Jenkins Secrets (CX Only)
+>[!IMPORTANT]
+>This section is essential and applies specifically to the __IAR Build Tools (CX)__, which requires an authentication token for activation through the IAR Cloud License Service. Please reach out to us for information regarding how to get the appropriate tokens for your needs.
+
+Jenkins provides safe storage for [credentials](https://www.jenkins.io/doc/book/security/credentials/#working-with-credentials). For storing your CI authentication token in credentials:
+- Go to __Manage Jenkins__/__Credentials__. (http://jenkins:8080/manage/credentials).
+- Click on any of the __System__ store.
+- Click on the __Global credentials (unrestricted)__ domain.
+- Click on the ` + Add Credentials  ` button.
+- Change __Kind__ to "Secret text".
+- Paste your Secret CI Token under __Secret__.
+- Set __ID__ to `iar_ci_token`.
+- Finally, click `Create`.
+
+The [Jenkinsfile-cx](https://github.com/iarsystems/ewp-workspaces-ci/blob/master/Jenkinsfile-cx) pipeline will consume the secret text to populate an environment variable named `IAR_LMS_BEARER_TOKEN`.
+
 ### Creating an Organization Folder
 Go back to the Jenkins Dashboard (http://jenkins:8080):
 
@@ -182,33 +197,41 @@ Go back to the Jenkins Dashboard (http://jenkins:8080):
 In the __Configuration__ page:
 - Select __Projects__ → "Repository Sources" → __` Add `__ → __Gitea Organization__.
 - Select the "Jenkins Token" from the __Credentials__ drop-down list.
-- Fill the __Owner__ field with the username you created for your Gitea server (e.g., `jenkins`) and __` Save `__.
+- Fill the __Owner__ field with the username you created for your Gitea server (e.g., `jenkins`).
+- In "Project Recognizers" → change the __Pipeline Jenkinsfile__ to `Jenkinsfile-cx` (or `Jenkinsfile-bx`).
+- Finally __` Save `__.
 
 
 ## What happens next?
 After that, Jenkins will use its multi-branch scan plugin to retrieve all the project repositories available on the Gitea Server.
 
-![image](https://github.com/user-attachments/assets/255fdef5-d29d-480d-93fb-d8c9aadd0a4d)
+![image](https://github.com/user-attachments/assets/700a8822-b433-4089-83fa-1b5d58b5d5fa)
 
-When a project repository contains a [Jenkinsfile](https://github.com/IARSystems/bx-workspaces-ci/blob/master/Jenkinsfile) that uses a [declarative pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/), Jenkins will then automatically execute the pipeline.
+When Jenkins finds the specified Jenkinsfile (e.g., [Jenkinsfile-cx](https://github.com/IARSystems/ewp-workspaces-ci/blob/master/Jenkinsfile-cx)) that uses a [declarative pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/), Jenkins will then automatically execute the defined pipeline.
 
 When the pipeline requests a Docker agent for the __docker-cloud__ plugin, it will automatically forward the request to the __jenkins__ container so a new container based on the selected image is dynamically spawned during the workflow execution.
 ```groovy
 pipeline {
   agent {
     docker {
-      image 'iarsystems/bx<package>:<version>' 
+      image 'ghcr.io/iarsystems/<target_architecture>:<version>-<device_supprt>'
       args '...'
   }
 /* ... */
-  stage('Build project') {
-     steps {
-       sh '/opt/iarsystems/bx<package>/common/bin/iarbuild project.ewp -build Release -log all'
-      }
+  stage('Build') {
+    steps {
+      sh 'iarbuild <project>.ewp -build <build_configuration> [-parallel <N>] [-log <error|warnings|info|all>]'
+    }
+  }
+  stage('Static Code Analysis') {
+    steps {
+      sh 'iarbuild <project>.ewp -cstat_analyze <build_configuration> [-parallel <N>] [-log <error|warnings|info|all>]'
+    }
+  }
 /* ... */
 ```
 
-![image](https://github.com/user-attachments/assets/130c6365-e205-4ecd-baaf-6c0b2e80e503)
+![image](https://github.com/user-attachments/assets/358b12e1-2774-43bf-9be0-0c229329ccf8)
 
 
 Jenkins will get a push notification from Gitea (via webhooks) whenever a monitored event is generated on the __owner__'s repositories.
@@ -218,17 +241,12 @@ Now you can start developing using the [IAR Embedded Workbench][url-iar-ew] and 
 ### Highlights
 * The [__warnings-ng__][url-plugin-warnings-ng] plugin gives instantaneous feedback for every build on compiler-generated warnings as well violation warnings on coding standards provided by [IAR C-STAT](https://www.iar.com/cstat), our static code analysis tool for C/C++:
 
-![warnings-ng-cstat](https://github.com/user-attachments/assets/50138a98-8768-4d47-af58-f29a241bfb36)
+![warnings-ng-cstat](https://github.com/user-attachments/assets/134daae4-99d6-46cb-b492-4eb13685f3d4)
 
 
 * The [__gitea-checks__][url-plugin-gitea-checks] plugin has integrations with the [__warnings-ng__][url-plugin-warnings-ng] plugin. On the Gitea server, it can help you to spot failing checks on pull requests, preventing potentially defective code from being inadvertently merged into a project's production branch:
 
-
-![gitea-checks-plugin-running](https://github.com/user-attachments/assets/6224c23f-f74f-455e-a300-df2de19aa1c7)
-
-
-![gitea-checks-plugin-failing](https://github.com/user-attachments/assets/1025d15c-5ce4-4085-92be-b57775defa6d)
-
+![gitea-checks-plugin](https://github.com/user-attachments/assets/46d1dbb7-6969-403e-b9cd-f5dabdb2ef13)
 
 > [!NOTE]
 > Jenkins provides plugins for many other Git server providers such as GitHub, GitLab or Bitbucket. Although these services also offer their own CI infrastructure and runners. Gitea was picked for this tutorial for its simplicity to deploy in a container. Refer to [Managing Jenkins/Managing Plugins][url-jenkins-docs-plugins] for further details.
@@ -251,7 +269,7 @@ For questions or suggestions related to this tutorial: try the [wiki][url-repo-w
 <!-- Links -->
 [url-iar-customer-support]: https://iar.my.site.com/mypages/s/contactsupport
 
-[url-iar-bx]:                 https://iar.com/bx
+[url-iar-cx]:                 https://iar.com/cx
 [url-iar-contact]:            https://iar.com/about/contact
 [url-iar-cstat]:              https://iar.com/cstat
 [url-iar-ew]:                 https://iar.com/products/overview
@@ -262,7 +280,7 @@ For questions or suggestions related to this tutorial: try the [wiki][url-repo-w
 [url-vi]:                     https://en.wikipedia.org/wiki/Vi
     
 [url-bx-docker]:              https://github.com/iarsystems/bx-docker/tree/v2025.04
-[url-bx-workspaces-ci]:       https://github.com/iarsystems/bx-workspaces-ci
+[url-ewp-workspaces-ci]:       https://github.com/iarsystems/ewp-workspaces-ci
 
 [url-docker-registry]:        https://docs.docker.com/registry
 [url-docker-docs-net]:        https://docs.docker.com/network
@@ -282,7 +300,7 @@ For questions or suggestions related to this tutorial: try the [wiki][url-repo-w
 [url-plugin-gitea-checks]:    https://plugins.jenkins.io/gitea-checks
 [url-plugin-warnings-ng]:     https://plugins.jenkins.io/warnings-ng
  
-[url-repo]:                   https://github.com/iarsystems/bx-jenkins-ci
-[url-repo-wiki]:              https://github.com/iarsystems/bx-jenkins-ci/wiki
-[url-repo-issue-new]:         https://github.com/iarsystems/bx-jenkins-ci/issues/new
-[url-repo-issue-old]:         https://github.com/iarsystems/bx-jenkins-ci/issues?q=is%3Aissue+is%3Aopen%7Cclosed
+[url-repo]:                   https://github.com/iarsystems/cx-jenkins-ci
+[url-repo-wiki]:              https://github.com/iarsystems/cx-jenkins-ci/wiki
+[url-repo-issue-new]:         https://github.com/iarsystems/cx-jenkins-ci/issues/new
+[url-repo-issue-old]:         https://github.com/iarsystems/cx-jenkins-ci/issues?q=is%3Aissue+is%3Aopen%7Cclosed
