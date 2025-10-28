@@ -20,8 +20,8 @@ RUN apt-get update && \
 
 # Performs JCasC
 ENV  JAVA_OPTS=-Djenkins.install.runSetupWizard=false
-ENV  CASC_JENKINS_CONFIG=/var/jenkins_home/jcasc.yaml
-COPY jcasc.yaml /var/jenkins_home/jcasc.yaml
+ENV  CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs/jenkins.yaml
+COPY jcasc.yaml ${CASC_JENKINS_CONFIG}
 
 # Install plugins
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt

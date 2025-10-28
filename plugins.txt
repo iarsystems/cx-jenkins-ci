@@ -3,6 +3,7 @@ authorize-project:latest
 branch-api:latest
 build-timeout:latest
 configuration-as-code:latest
+credentials:latest
 docker-commons:latest
 docker-java-api:latest
 docker-plugin:latest
