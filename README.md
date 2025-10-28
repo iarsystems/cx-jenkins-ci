@@ -60,8 +60,6 @@ docker run \
 ```
 
 On the web browser, navigate to http://gitea:3000 to perform the initial Gitea setup:
-- Make sure __Server Domain__ is set to `gitea`.
-- Make sure __Gitea Base URL__ is set to `http://gitea:3000`.
 - Unfold __Administrator Account Settings__ and enter with:
    - __Administrator Username__: `jenkins`
    - __Email Address__: `jenkins@localhost`
