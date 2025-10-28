@@ -101,7 +101,7 @@ In the Linux server's shell, clone this repository to the user's home directory 
 git clone https://github.com/iarsystems/cx-jenkins-ci.git ~/cx-jenkins-ci
 ```
 
-Edit `jcasc.yml` updating with your own adminstrative credentials and then build the image, tagging it as __jenkins:jcasc__:
+Build the container image, tagging it as __jenkins:jcasc__:
 ```
 docker build --tag jenkins:jcasc --build-arg DOCKER_GROUP=$(getent group docker | cut -d: -f3) ~/cx-jenkins-ci
 ```
