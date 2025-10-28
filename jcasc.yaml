@@ -74,7 +74,7 @@ credentials:
             scope: GLOBAL 
             id: 'gitea-server-creds'
             username: 'jenkins'
-            password: 'jenkins1234'
+            password: 'jenkins'
             description: 'The Gitea user/pass authentication'
 
 # Additional configurations
