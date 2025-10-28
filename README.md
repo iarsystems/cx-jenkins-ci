@@ -120,6 +120,7 @@ docker run --name jenkins \
   --publish 50000:50000 \
   --volume jenkins-data:/var/jenkins_home \
   --volume /var/run/docker.sock:/var/run/docker.sock \
+  --env IAR_LMS_BEARER_TOKEN=${IAR_LMS_BEARER_TOKEN} \
   jenkins:jcasc
 ```
 
