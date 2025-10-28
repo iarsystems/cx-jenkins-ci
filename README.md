@@ -126,8 +126,7 @@ docker run --name jenkins \
 ```
 
 ### Creating an Organization Folder
-Go back to the Jenkins Dashboard (http://jenkins:8080):
-
+Log in into your Jenkins Dashboard (http://jenkins:8080) and then:
 - Click __New Item__.
 - __Enter an item name__ (e.g. `Organization`).
 - Select __Organization Folder__ and click __` OK `__.
