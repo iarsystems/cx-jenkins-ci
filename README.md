@@ -56,7 +56,7 @@ docker run \
   --volume /etc/localtime:/etc/localtime:ro \
   --publish 3000:3000 \
   --publish 2222:2222 \
-  gitea/gitea:1.22.1
+  gitea/gitea:1.24
 ```
 
 On the web browser, navigate to http://gitea:3000 to perform the initial Gitea setup:
