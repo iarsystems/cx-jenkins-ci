@@ -62,11 +62,11 @@ docker run \
 On the web browser, navigate to http://gitea:3000 to perform the initial Gitea setup:
 - Make sure __Server Domain__ is set to `gitea`.
 - Make sure __Gitea Base URL__ is set to `http://gitea:3000`.
-- Unfold __Administrator Account Settings__.
-   - Set the __Administrator Username__ (suggested: `jenkins`)
-   - Set the __Email Address__
-   - Set the __Password__
-   - Set the __Confirm Password__
+- Unfold __Administrator Account Settings__ and enter with:
+   - __Administrator Username__: `jenkins`
+   - __Email Address__: `jenkins@localhost`
+   - __Password__: `jenkins`
+   - __Confirm Password__: `jenkins`
 - Click __`Install Gitea`__.
 
 ### Setting up a webhook
@@ -107,7 +107,7 @@ Edit `jcasc.yml` updating with your own adminstrative credentials and then build
 ```
 docker build --tag jenkins:jcasc --build-arg DOCKER_GROUP=$(getent group docker | cut -d: -f3) ~/cx-jenkins-ci
 ```
->[!NOTE]
+>[!TIP]
 >Given its fast-paced and complex ecosystem, Jenkins' plugins sometimes might break compatibility regarding its interdependencies. If you try this tutorial at a point in time where a certain plugin prevents the Docker image from being created, it is possible to pin the broken plugin's version by replacing `<broken-plugin>:latest` for a plugin's earlier version in the `plugin.txt` file.
 
 Now run the __jenkins__ container:
