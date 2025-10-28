@@ -1,49 +1,92 @@
 jenkins:
+  systemMessage: 'This instance was automatically configured by Jenkins Configuration as Code plugin...'
+  globalNodeProperties:
+  - envVars:
+      env:
+      - key: IAR_LMS_BEARER_TOKEN
+        value: ${IAR_LMS_BEARER_TOKEN}
+
+  # Security Realm for user authentication
   securityRealm:
     local:
       allowsSignup: false
       users:
-       - id: ${JENKINS_ADMIN_ID}
-         password: ${JENKINS_ADMIN_PASSWORD}
+      - id: 'admin'
+        password: 'admin'
+      - id: 'developer'
+        password: 'developer'
+
+  # Authorization Strategy
   authorizationStrategy:
     globalMatrix:
-      permissions:
-        - "GROUP:Agent/Build:authenticated"
-        - "GROUP:Agent/Configure:authenticated"
-        - "GROUP:Agent/Connect:authenticated"
-        - "GROUP:Agent/Create:authenticated"
-        - "GROUP:Agent/Delete:authenticated"
-        - "GROUP:Agent/Disconnect:authenticated"
-        - "GROUP:Credentials/Create:authenticated"
-        - "GROUP:Credentials/Delete:authenticated"
-        - "GROUP:Credentials/ManageDomains:authenticated"
-        - "GROUP:Credentials/Update:authenticated"
-        - "GROUP:Credentials/View:authenticated"
-        - "GROUP:Job/Build:authenticated"
-        - "GROUP:Job/Cancel:authenticated"
-        - "GROUP:Job/Configure:authenticated"
-        - "GROUP:Job/Create:authenticated"
-        - "GROUP:Job/Delete:authenticated"
-        - "GROUP:Job/Discover:authenticated"
-        - "GROUP:Job/Move:authenticated"
-        - "GROUP:Job/Read:authenticated"
-        - "GROUP:Job/Workspace:authenticated"
-        - "GROUP:Overall/Administer:authenticated"
-        - "GROUP:Overall/Read:authenticated"
-        - "GROUP:Run/Delete:authenticated"
-        - "GROUP:Run/Replay:authenticated"
-        - "GROUP:Run/Update:authenticated"
-        - "GROUP:View/Configure:authenticated"
-        - "GROUP:View/Create:authenticated"
-        - "GROUP:View/Delete:authenticated"
-        - "GROUP:View/Read:authenticated"
-        - "USER:Overall/Read:anonymous"
-security:
-  queueItemAuthenticator:
-    authenticators:
-    - global:
-        strategy: triggeringUsersAuthorizationStrategy
+      entries:
+        - user:
+            name: admin
+            permissions:
+              - Agent/Build
+              - Agent/Configure
+              - Agent/Connect
+              - Agent/Create
+              - Agent/Delete
+              - Agent/Disconnect
+              - Credentials/Create
+              - Credentials/Delete
+              - Credentials/ManageDomains
+              - Credentials/Update
+              - Credentials/View
+              - Job/Build
+              - Job/Cancel
+              - Job/Configure
+              - Job/Create
+              - Job/Delete
+              - Job/Discover
+              - Job/Move
+              - Job/Read
+              - Job/Workspace
+              - Overall/Administer
+              - Overall/Read
+              - Run/Delete
+              - Run/Replay
+              - Run/Update
+              - View/Configure
+              - View/Create
+              - View/Delete
+              - View/Read
+        - user:
+            name: developer
+            permissions:
+              - Overall/Read
+
+  # Docker cloud configuration
+  clouds:
+    - docker:
+        name: 'Jenkins cloud'
+        dockerApi:
+          dockerHost:
+            uri: 'unix:///var/run/docker.sock'
+
+# Credentials
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+        - usernamePassword:
+            scope: GLOBAL 
+            id: 'gitea-server-creds'
+            username: 'jenkins'
+            password: 'jenkins1234'
+            description: 'The Gitea user/pass authentication'
+
+# Additional configurations
 unclassified:
   location:
     url: http://jenkins:8080/
-    
+
+  # Gitea server configuration
+  giteaServers:
+    servers:
+      - displayName: 'gitea-server'
+        serverUrl: 'http://gitea:3000'
+        credentialsId: 'gitea-server-creds'
+        manageHooks: true
+
