@@ -150,18 +150,18 @@ When the pipeline requests a Docker agent for the __docker-cloud__ plugin, it wi
 pipeline {
   agent {
     docker {
-      image 'ghcr.io/iarsystems/<target_architecture>:<version>-<device_supprt>'
+      image 'ghcr.io/iarsystems/<target_architecture>:<version>-<variant>'
       args '...'
   }
 /* ... */
   stage('Build') {
     steps {
-      sh 'iarbuild <project>.ewp -build <build_configuration> [-parallel <N>] [-log <error|warnings|info|all>]'
+      sh 'iarbuild <project>.ewp -build <build_configuration> [-parallel <N>] [-log all]'
     }
   }
   stage('Static Code Analysis') {
     steps {
-      sh 'iarbuild <project>.ewp -cstat_analyze <build_configuration> [-parallel <N>] [-log <error|warnings|info|all>]'
+      sh 'iarbuild <project>.ewp -cstat_analyze <build_configuration> [-parallel <N>] [-log all]'
     }
   }
 /* ... */
@@ -169,16 +169,15 @@ pipeline {
 
 ![image](https://github.com/user-attachments/assets/358b12e1-2774-43bf-9be0-0c229329ccf8)
 
-
 Jenkins will get a push notification from Gitea (via webhooks) whenever a monitored event is generated on the __owner__'s repositories.
 
 Now you can start developing using the [IAR Embedded Workbench][url-iar-ew] and committing the project's code to the Gitea Server so you get automated builds and reports.
+
 
 ### Highlights
 * The [__warnings-ng__][url-plugin-warnings-ng] plugin gives instantaneous feedback for every build on compiler-generated warnings as well violation warnings on coding standards provided by [IAR C-STAT](https://www.iar.com/cstat), our static code analysis tool for C/C++:
 
 ![warnings-ng-cstat](https://github.com/user-attachments/assets/134daae4-99d6-46cb-b492-4eb13685f3d4)
-
 
 * The [__gitea-checks__][url-plugin-gitea-checks] plugin has integrations with the [__warnings-ng__][url-plugin-warnings-ng] plugin. On the Gitea server, it can help you to spot failing checks on pull requests, preventing potentially defective code from being inadvertently merged into a project's production branch:
 
