@@ -38,8 +38,6 @@ jenkins:
         - "GROUP:View/Delete:authenticated"
         - "GROUP:View/Read:authenticated"
         - "USER:Overall/Read:anonymous"
-  remotingSecurity:
-    enabled: true
 security:
   queueItemAuthenticator:
     authenticators:
