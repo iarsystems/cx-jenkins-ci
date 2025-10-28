@@ -1,7 +1,7 @@
 # Jenkins CI with the IAR Build Tools
-The [IAR Build Tools](https://iar.com/cx) comes the command line tools for bulding projects created with the IAR Embedded Workbench in continuous integration, or headless, environments such as [Jenkins][url-jenkins], while [Gitea][url-gitea] is a lightweight Git server suitable for simple container deployment. Jenkins provides plugins for many other popular Git server providers such as GitHub, GitLab or Bitbucket. Refer to [Managing Jenkins/Managing Plugins][url-jenkins-docs-plugins] for more details.
+The [IAR Build Tools](https://iar.com/cx) include command-line utilities for building projects created with IAR Embedded Workbench in continuous integration or headless environments, such as [Jenkins][url-jenkins]. [Gitea][url-gitea] is a lightweight Git server ideal for simple container deployments. Jenkins offers plugins for many popular Git providers, including GitHub, GitLab, and Bitbucket. For details, see [Managing Jenkins/Managing Plugins][url-jenkins-docs-plugins].
 
-This tutorial provides a quick method for bootstrapping the IAR Build Tools, Gitea and Jenkins, each one on its own container, for building and analyzing your embedded projects on-premises. From this starting point, you can apply customizations suitable for your organization's needs. In a picture:
+This tutorial provides a quick way to bootstrap IAR Build Tools, Gitea and Jenkins —each in its own container— for building and analyzing embedded projects on-premises. From this foundation, you can apply customizations to suit your organization’s needs. In a picture:
 
 ![cx-jenkins-ci](https://github.com/user-attachments/assets/bd02dbad-0f35-4ef7-89ca-8b1d4cada87a)
 
