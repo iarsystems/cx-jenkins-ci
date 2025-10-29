@@ -10,7 +10,7 @@ Why This Setup? Amongst the reasons for adopting it, it is worth mentioning:
 - __Fully containerized__: No host pollution, easy to versionate and scale
 - __[Webhooks][url-gitea-docs-webhooks]-triggered builds__: Push to Gitea → instant Jenkins pipeline execution
 - __Dynamic Build Agents__: Docker agents spawn on-demand using [official IAR tool images](https://github.com/orgs/iarsystems/packages)
-- __Rich feedback__: integrated C-STAT analysis, warnings and pull request checks
+- __Rich feedback__: integrated C-STAT analysis, [warnings][url-plugin-warnings-ng] and [pull request checks][url-plugin-gitea-checks]
 
 ## Disclaimer
 The information in this repository is provided as-is and may change without notice. It does not represent a commitment by IAR Systems. While useful as a reference for DevOps engineers implementing CI with IAR tools, IAR assumes no responsibility for errors, omissions, or specific implementations.
