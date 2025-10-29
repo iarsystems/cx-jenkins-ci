@@ -200,6 +200,10 @@ Gitea webhooks notify Jenkins of changes, triggering automated builds.
 
 In simple terms, develop in IAR Embedded Workbench, commit to Gitea while blocking bad PRs with failing checks, and get clean builds with instant compiler and MISRA/CERT feedback, using safe, reproducible, and version-controlled configuration in Jenkins.
 
+![gitea-checks-plugin](https://github.com/user-attachments/assets/46d1dbb7-6969-403e-b9cd-f5dabdb2ef13)
+
+![jenkins-pipeline](https://github.com/user-attachments/assets/358b12e1-2774-43bf-9be0-0c229329ccf8)
+
 ![warnings-ng-cstat](https://github.com/user-attachments/assets/134daae4-99d6-46cb-b492-4eb13685f3d4)
 
 
