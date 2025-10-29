@@ -125,8 +125,7 @@ Review and edit configurations in `~/cx-jenkins-ci` if needed. Build the image:
 docker build \
   --tag jenkins:jcasc \
   --build-arg DOCKER_GROUP=$(getent group docker | cut -d: -f3) \
-  ~/cx-jenkins-ci \
-  .
+  ~/cx-jenkins-ci
 ```
 >[!TIP]
 >If plugin compatibility issues arise, pin versions in `plugins.txt` (e.g., `<plugin>:specific-version`).
