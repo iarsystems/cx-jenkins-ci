@@ -97,13 +97,13 @@ These changes persist in the `gitea-data` volume.
 
 ### Migrating an Existing Example Repository
 For this tutorial, use a sample repository with a `Jenkinsfile` for pipeline execution. On Gitea's dashboard (top-right corner):
-- Click "+" → "New Migration".
-- Select "Git" as the migration type.
+- Click `+` → __New Migration__.
+- Select __Git__ as the migration type.
 - Enter a repository URL 
    - (e.g., a public example repo with a Jenkinsfile. You can use <https://github.com/iarsystems/ewp-workspaces-ci> for reference).
 - Fill in details and migrate.
 
-Alternatively, create a new repository and push a sample project with a `Jenkinsfile-cx` or `Jenkinsfile-bx`.
+Alternatively, create a new repository and push a sample project with a appropriate `Jenkinsfile-cx` or `Jenkinsfile-bx`.
 
 
 <img alt="Jenkins" align="right" src="https://avatars.githubusercontent.com/u/107424?s=72&v=4"/><br>
