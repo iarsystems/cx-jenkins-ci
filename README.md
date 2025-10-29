@@ -5,16 +5,15 @@ This tutorial guides you through setting up these tools in separate containers f
 
 ![cx-jenkins-ci](https://github.com/user-attachments/assets/bd02dbad-0f35-4ef7-89ca-8b1d4cada87a)
 
+Why This Setup? Amongst the reasons for adopting it, it is worth mentioning:
+- __Zero manual configuration__: Jenkins is pre-configured via Configuration as Code ([JCasC][url-jenkins-jcasc])
+- __Fully containerized__: No host pollution, easy to versionate and scale
+- __[Webhooks][url-gitea-docs-webhooks]-triggered builds__: Push to Gitea → instant Jenkins pipeline execution
+- __Dynamic Build Agents__: Docker agents spawn on-demand using [official IAR tool images](https://github.com/orgs/iarsystems/packages)
+- __Rich feedback__: integrated C-STAT analysis, warnings and pull request checks
 
 ## Disclaimer
 The information in this repository is provided as-is and may change without notice. It does not represent a commitment by IAR Systems. While useful as a reference for DevOps engineers implementing CI with IAR tools, IAR assumes no responsibility for errors, omissions, or specific implementations.
-
-## Why This Setup?
-- __Zero manual configuration__: Jenkins is pre-configured via Configuration as Code (JCasC)
-- __Fully containerized__: No host pollution, easy to versionate and scale
-- __Webhooks-triggered builds__: Push to Gitea → instant Jenkins pipeline execution
-- __Dynamic Build Agents__: Docker agents spawn on-demand using official IAR tool images
-- __Rich feedback__: integrated C-STAT analysis, warnings and pull request checks
 
 ## Prerequisites
 This tutorial uses public container images with the latest IAR Build Tools (CX generation) and its Cloud License Service. For the earlier BX generation, build custom Docker images following the [bx-docker guide][url-bx-docker].
