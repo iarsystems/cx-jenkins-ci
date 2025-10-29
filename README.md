@@ -91,8 +91,8 @@ For this example, we will use a repository containing a Jenkinsfile, a script to
 It is finally time to set up the __jenkins__ container.
 
 The standard Jenkins setup has a number of steps that can be automated with the [configuration-as-code][url-plugin-casc] plugin. For this, let's use a custom [Dockerfile](Dockerfile) that will:
-* use the __jenkins/jenkins:lts-slim__ as base image, a stable version offering __LTS__ (Long-Term Support).
-* use the __configuration-as-code__ plugin, so that we script the initial Jenkins [configuration](jcasc.yaml).
+* use the __jenkins/jenkins:lts-slim__, a stable version offering __LTS__ (Long-Term Support), as base image.
+* use the __configuration-as-code__ plugin, so that we script the initial [Jenkins configuration](jcasc.yaml).
 * use the `jenkins-plugin-cli` command line utility to install a collection of [plugins](plugins.txt) versions that are known to be working.
 * and more... (check [Dockerfile](Dockerfile) for details).
 
@@ -101,7 +101,7 @@ In the Linux server's shell, clone this repository to the user's home directory 
 git clone https://github.com/iarsystems/cx-jenkins-ci.git ~/cx-jenkins-ci
 ```
 
-Build the container image, tagging it as __jenkins:jcasc__:
+Check and update your [Jenkins configuration](jcasc.yaml) if necessary. Then build the container image, tagging it as __jenkins:jcasc__:
 ```
 docker build --tag jenkins:jcasc --build-arg DOCKER_GROUP=$(getent group docker | cut -d: -f3) ~/cx-jenkins-ci
 ```
@@ -125,7 +125,7 @@ docker run --name jenkins \
 ```
 
 ### Creating an Organization Folder
-Log in into your Jenkins Dashboard (http://jenkins:8080) and then:
+Log in into your Jenkins Dashboard (http://jenkins:8080, default user/pass is `admin`/`admin`) and then:
 - Click __New Item__.
 - __Enter an item name__ (e.g. `Organization`).
 - Select __Organization Folder__ and click __` OK `__.
