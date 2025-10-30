@@ -177,22 +177,19 @@ pipeline {
   }
 
   stages {
-    stage('Build') {
+    stage('Build & Analyze') {
       steps {
         sh 'iarbuild MyProject.ewp -build Release -parallel 4 -log all'
-      }
-    }
-
-    stage('Analyze') {
-      steps {
         sh 'iarbuild MyProject.ewp -cstat_analyze Release -parallel 4 -log all'
       }
     }
+  }
+
   post {
     always {
-      recordIssues enabledForFailure: true, tool: iarCStat()
+      sh 'icstat --db Release/C-STAT/cstat.db load
+      recordIssues enabledForFailure: true, tools: [iar(), iarCstat()]
     }
-  }
   }
 }
 ```
