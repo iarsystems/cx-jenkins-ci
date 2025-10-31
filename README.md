@@ -5,12 +5,12 @@ This tutorial guides you through setting up these tools in separate containers f
 
 ![cx-jenkins-ci](https://github.com/user-attachments/assets/bd02dbad-0f35-4ef7-89ca-8b1d4cada87a)
 
-Why This Setup? Amongst the reasons for adopting it, it is worth mentioning:
-- __Zero manual configuration__: Jenkins is pre-configured via Configuration as Code ([JCasC][url-jenkins-jcasc])
-- __Fully containerized__: No host pollution, easy to versionate and scale
-- __[Webhooks][url-gitea-docs-webhooks]-triggered builds__: Push to Gitea → instant Jenkins pipeline execution
-- __Dynamic Build Agents__: Docker agents spawn on-demand using [official IAR tool images](https://github.com/orgs/iarsystems/packages)
-- __Rich feedback__: integrated C-STAT analysis, [warnings][url-plugin-warnings-ng] and [pull request checks][url-plugin-gitea-checks]
+Why this setup? Amongst the reasons for adopting it, it is worth mentioning:
+- __Zero manual configuration__: Jenkins is pre-configured via Configuration as Code ([JCasC][url-jenkins-jcasc]).
+- __Fully containerized__: No host pollution, easy to versionate and scale.
+- __[Webhooks][url-gitea-docs-webhooks]-triggered builds__: Push to Gitea, get instant Jenkins pipeline execution.
+- __Dynamic Build Agents__: Docker agents spawn on-demand using [official IAR tool images](https://github.com/orgs/iarsystems/packages).
+- __Rich feedback__: integrated C-STAT analysis, [warnings][url-plugin-warnings-ng] and [pull request checks][url-plugin-gitea-checks].
 
 ## Disclaimer
 The information in this repository is provided as-is and may change without notice. It does not represent a commitment by IAR Systems. While useful as a reference for DevOps engineers implementing CI with IAR tools, IAR assumes no responsibility for errors, omissions, or specific implementations.
@@ -100,8 +100,8 @@ For this tutorial, use a sample repository with a `Jenkinsfile` for pipeline exe
 - Click `+` → __New Migration__.
 - Select __Git__ as the migration type.
 - Enter a repository URL (e.g., a public example repo with a Jenkinsfile). Some examples you can readily use are:
-   - <https://github.com/iarsystems/ewp-workspaces-ci>
-   - <https://github.com/iarsystems/riscv-board-examples>
+   - <https://github.com/iarsystems/ewp-workspaces-ci> (uses `iarbuild`)
+   - <https://github.com/iarsystems/riscv-board-examples> (uses `cmake`)
 - Fill in details and migrate.
 
 Alternatively, create a new repository and push a sample project with a appropriate `Jenkinsfile-cx` or `Jenkinsfile-bx`.
