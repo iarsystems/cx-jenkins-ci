@@ -2,7 +2,7 @@ name: JCasC CI
 
 on:
   schedule:
-    - cron: '0 5 1 * *'
+    - cron: '10 5 * * *'
   workflow_dispatch:    
   push:
     paths-ignore:
@@ -33,7 +33,7 @@ jobs:
           --volume /etc/localtime:/etc/localtime:ro \
           --publish 3000:3000 \
           --publish 2222:2222 \
-          gitea/gitea:1.24
+          gitea/gitea:1.27
 
       - name: Establish Gitea's webhooks
         run: |
