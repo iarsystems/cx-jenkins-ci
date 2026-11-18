@@ -76,7 +76,7 @@ docker run \
   --volume /etc/localtime:/etc/localtime:ro \
   --publish 3000:3000 \
   --publish 2222:2222 \
-  gitea/gitea:1.24
+  gitea/gitea:1.27
 ```
 
 Access http://gitea:3000 in your browser for initial setup:
@@ -173,7 +173,7 @@ The pipeline uses a Docker agent to spawn a container (e.g., `ghcr.io/iarsystems
 pipeline {
   agent {
     docker {
-      image 'ghcr.io/iarsystems/arm:9.70.1-st'
+      image 'ghcr.io/iarsystems/arm:10.10.2-st'
       args '-e VAR=VALUE'
     }
   }
@@ -217,7 +217,7 @@ Customize using the provided scripts, Dockerfile, and [Jenkins documentation](ht
 For technical support, contact [IAR Customer Support][url-iar-customer-support].
 Questions or suggestions? Check the [Wiki][url-repo-wiki] or open an [issue][url-repo-issue-new].
 
-_(c) 2020-2025 IAR Systems AB. This example is provided as-is for reference. Customize to fit your environment._ 
+_(c) 2020-2026 IAR Systems AB. This example is provided as-is for reference. Customize to fit your environment._ 
 
 
 <!-- Links -->
